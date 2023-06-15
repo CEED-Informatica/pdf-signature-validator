@@ -4,19 +4,19 @@ with open('README.md', 'r', encoding='utf-8') as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name='example_pypi_package',
-    author='Tom Chen',
-    author_email='tomchen.org@gmail.com',
-    description='Example PyPI (Python Package Index) Package',
-    keywords='example, pypi, package',
+    name='pdf_signature_validator',
+    author='Álvaro Maceda',
+    author_email='alvaro@alvaromaceda.es',
+    description='Module for validating pdf signatures using pdfsig ',
+    keywords='pdfsig, pdf, certificate, signature, validation',
     long_description=long_description,
     long_description_content_type='text/markdown',
     url='https://github.com/tomchen/example_pypi_package',
     project_urls={
-        'Documentation': 'https://github.com/tomchen/example_pypi_package',
+        'Documentation': 'https://github.com/CEED-Informatica/pdf-signature-validator',
         'Bug Reports':
-        'https://github.com/tomchen/example_pypi_package/issues',
-        'Source Code': 'https://github.com/tomchen/example_pypi_package',
+        'https://github.com/CEED-Informatica/pdf-signature-validator/issues',
+        'Source Code': 'https://github.com/CEED-Informatica/pdf-signature-validator',
         # 'Funding': '',
         # 'Say Thanks!': '',
     },
@@ -35,8 +35,8 @@ setuptools.setup(
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3 :: Only',
-        'License :: OSI Approved :: MIT License',
-        'Operating System :: OS Independent',
+        'License :: OSI Approved :: GPL-3.0',
+        'Operating System :: Linux',
     ],
     python_requires='>=3.6',
     # install_requires=['Pillow'],
