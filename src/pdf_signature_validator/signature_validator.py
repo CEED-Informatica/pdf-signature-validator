@@ -1,7 +1,7 @@
 import subprocess
 
-from pdfsig_output_decoder import PdfSigDecoder, PdfSigDecoderException
-from error_codes import error_codes
+from .pdfsig_output_decoder import PdfSigDecoder, PdfSigDecoderException
+from .error_codes import error_codes
 
 class SignatureValidatorException(RuntimeError):
     def __init__(self, error_code, output=None ):
