@@ -64,7 +64,7 @@ class SignatureValidator:
         command = f'pdfsig {nssdir_option} "{pdf_filename}"'
         (return_code,output) = SignatureValidator._run(command)
 
-        if return_code != 0: raise Exception(f'pdfsig failed: {output}')
+        if return_code != 0: raise Exception(output)
 
         return output
 
