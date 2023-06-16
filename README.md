@@ -38,58 +38,37 @@ rm -rf $CERTIFICATES_DIR
 
 ## Usage
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+The module exports two classes: `SignatureValidator` and `SignatureValidatorException`.
 
+### SignatureValidator
 
-SignatureValidator
+`SignatureValidator` takes as parameters the path of a pdf file and, optionally, the directory path of an nss database of certificates. It will return the pdf's signer common name when you call the method get_signer. It has no other methods:
 
- Example usage:
 ```python
 try:
     print(SignatureValidator('test.pdf', '/certificates_database').get_signer())
 except SignatureValidatorException as e:
     print(e.build_response())
 ```
+The call to pdfsig will check the revocation of the certificates using OCSP, if the certificate has expired, etc. If you pass a nss database it will take in account only the signers from that database.
 
+In case the pdf or the signature is not correct, it will throw a `SignatureValidatorException`
 
-SignatureValidatorException
+###  SignatureValidatorException
 
-There are many great README templates available on GitHub; however, I didn't find one that really suited my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need -- I think this is it.
+This exception has three fields:
+- `error_code`: One of the `error_codes` from `error_codes.py`.
+- `error_message`: The corresponding message for the error code
+- `output`: The output of pdfsig if the command has failed to run. It can be `None`.
 
-Here's why:
-* Your time should be focused on creating something amazing. A project that solves a problem and helps others
-* You shouldn't be doing the same tasks over and over like creating a README from scratch
-* You should implement DRY principles to the rest of your life :smile:
+For example, if you pass a pdf file signed by
 
-Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue. Thanks to all the people have contributed to expanding this template!
-
-Use the `BLANK_README.md` to get started.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
+It also has a method, `get_response()`, which will build a hash with those fields. It is intended to ease the construction of the response in API services.
 
 ### Installation
 
 INSTALLING FROM GIT
 INSTALLING FROM LOCAL DIRECTORY
-
-
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/your_username_/Project-Name.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -121,11 +100,8 @@ Distributed under the GPL v3 License. See `LICENSE.md` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
+Alvaro Maceda - alvaro@alvaromaceda.es
 
-Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
+Project Link: [https://github.com/CEED-Informatica/pdf-signature-validator](hhttps://github.com/CEED-Informatica/pdf-signature-validator)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
