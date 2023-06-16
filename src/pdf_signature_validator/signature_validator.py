@@ -6,14 +6,27 @@ from .error_codes import error_codes
 class SignatureValidatorException(RuntimeError):
     def __init__(self, error_code, output=None ):
         super().__init__()
-        self.error = self._error_response(error_code, output)
+        self._error_code = error_code
+        self._error_message = error_codes[error_code]
+        self._output = output
 
-    # TO-DO: Change this to three separate fields
-    def _error_response(self,error_code, output=None):
+    @property
+    def error_code(self):
+        return self._error_code
+
+    @property
+    def error_message(self):
+        return self._error_message
+
+    @property
+    def output(self):
+        return self._output
+
+    def build_response(self):
         response = {
-            'error_code': error_code,
-            'error_message': error_codes[error_code],
-            'output': output
+            'error_code': self._error_code,
+            'error_message': self._error_message,
+            'output': self._output
         }
         return {key: value for key, value in response.items() if value is not None}
 
@@ -60,4 +73,4 @@ class SignatureValidator:
 #   try:
 #     print(SignatureValidator('test.pdf').get_signer())
 #   except SignatureValidatorException as e:
-#     print(e.error)
+#     print(e.build_response())
