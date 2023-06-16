@@ -3,9 +3,7 @@ from textwrap import dedent
 
 import sys
 sys.path.append("./src/pdf_signature_validator")
-
-# from signature_validator import PdfSigDecoder, PdfSigDecoderException
-from src.pdf_signature_validator import PdfSigDecoder, PdfSigDecoderException
+from src.pdf_signature_validator.pdfsig_output_decoder import PdfSigDecoder, PdfSigDecoderException
 
 def ml(text):
   return dedent(text).strip("\n")
