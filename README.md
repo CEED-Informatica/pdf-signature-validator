@@ -72,6 +72,13 @@ INSTALLING FROM LOCAL DIRECTORY
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## Testing
+
+From the root folder:
+```bash
+python -m unittest discover -s tests -p 'test_*.py'
+```
+
 
 <!-- CONTRIBUTING -->
 ## Contributing

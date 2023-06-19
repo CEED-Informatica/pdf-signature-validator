@@ -4,5 +4,6 @@ error_codes = {
     'NOT_SIGNED': 'The PDF file is not signed',
     'INVALID_SIGNATURE': 'The signature is not valid',
     'EXPIRED_CERTIFICATE': 'The certificate has expired',
+    'REVOKED_CERTIFICATE': 'The certificate has been revoked',
     'NOT_VALID_CERTIFICATE': 'The certificate is not valid',
 }

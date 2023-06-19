@@ -34,6 +34,9 @@ def _check_valid_certificate(command_output):
     if signature_state == 'Certificate has Expired':
         raise PdfSigDecoderException('EXPIRED_CERTIFICATE')
 
+    if signature_state == 'Certificate has been Revoked.':
+        raise PdfSigDecoderException('REVOKED_CERTIFICATE')
+
     if signature_state != 'Certificate is Trusted.':
         raise PdfSigDecoderException('INVALID_SIGNATURE')
 
