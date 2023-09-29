@@ -38,7 +38,7 @@ def _check_valid_certificate(command_output):
         raise PdfSigDecoderException('REVOKED_CERTIFICATE')
 
     if signature_state != 'Certificate is Trusted.':
-        raise PdfSigDecoderException('INVALID_SIGNATURE')
+        raise PdfSigDecoderException('NOT_TRUSTED_CERTIFICATE')
 
 
 signer_re = re.compile(r"- Signer Certificate Common Name: (.*)")

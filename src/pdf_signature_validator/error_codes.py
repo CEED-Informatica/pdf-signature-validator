@@ -6,4 +6,5 @@ error_codes = {
     'EXPIRED_CERTIFICATE': 'The certificate has expired',
     'REVOKED_CERTIFICATE': 'The certificate has been revoked',
     'NOT_VALID_CERTIFICATE': 'The certificate is not valid',
+    'NOT_TRUSTED_CERTIFICATE': 'The certificate is not trusted'
 }

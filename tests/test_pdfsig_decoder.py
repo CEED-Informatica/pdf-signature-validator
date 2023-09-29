@@ -95,8 +95,8 @@ class TestPdfSigDecoder(unittest.TestCase):
     output = ml("""\
       Digital Signature Info of: /tmp/Valido_CCVA_signed.pdf
       Signature #1:
-        - Signer Certificate Common Name: ALVARO MACEDA ARRANZ - NIF:33408425M
-        - Signer full Distinguished Name: C=ES,O=ACCV,OU=CIUDADANOS,SN=MACEDA ARRANZ,givenName=ALVARO,serialNumber=33408425M,CN=ALVARO MACEDA ARRANZ - NIF:33408425M
+        - Signer Certificate Common Name: NOMBRE SURNAME1 SURNAME2 NAME - NIF 12345678X
+        - Signer full Distinguished Name: CN=NOMBRE SURNAME1 SURNAME2 NAME - NIF 12345678X,OU=500052411,OU=FNMT Clase 2 CA,O=FNMT,C=ES
         - Signing Time: May 05 2023 12:04:11
         - Signing Hash Algorithm: SHA-256
         - Signature Type: ETSI.CAdES.detached
@@ -109,6 +109,26 @@ class TestPdfSigDecoder(unittest.TestCase):
       PdfSigDecoder.get_signer(output)
 
     self.assertEqual('REVOKED_CERTIFICATE',str(context.exception))
+
+  def test_corrupted_data(self):
+    output = ml("""\
+      - Signer Certificate Common Name: NOMBRE SURNAME1 SURNAME2 NAME - NIF 12345678X
+      - Signer full Distinguished Name: CN=NOMBRE SURNAME1 SURNAME2 NAME - NIF 12345678X,OU=500052411,OU=FNMT Clase 2 CA,O=FNMT,C=ES
+      - Signing Time: Sep 27 2023 13:38:43
+      - Signing Hash Algorithm: SHA1
+      - Signature Type: adbe.pkcs7.detached
+      - Signed Ranges: [0 - 218508], [240538 - 247096]
+      - Total document signed
+      - Signature Validation: Signature is Valid.
+      - Certificate Validation: Unknown issue with Certificate or corrupted data.
+      """)
+
+    with self.assertRaises(PdfSigDecoderException) as context:
+      PdfSigDecoder.get_signer(output)
+
+    self.assertEqual('NOT_TRUSTED_CERTIFICATE',str(context.exception))
+
+
 
   # TO-DO: multiple signatures
 
