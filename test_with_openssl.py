@@ -48,6 +48,20 @@ def get_root_certificates():
 
     return[f"{directory}/{file}" for file in certificates if file.endswith('.pem')]
 
+def verify_chain(cert, chain, root_ca_file):
+    # We need to run an order like this:
+    # openssl verify -CAfile ACRAIZFNMTRCM.pem -untrusted carmen.pem -untrusted usuarios.pem carmen.pem
+    # The order of the certificates in --untrusted doesn't seem to matter
+    command = [
+        'openssl', 'verify', '-CAfile', root_ca_file,
+    ]
+    for chain_cert in chain:
+        command += ['-untrusted', cert]
+    command += [chain_cert]
+
+    result = subprocess.run(command, capture_output=True, text=True)
+    return result.returncode == 0
+
 # Main function
 def main():
     FILE='./tmp/test.pdf.sig0'
@@ -56,24 +70,22 @@ def main():
     root_ca_files = get_root_certificates()
     extract_pem_file(FILE, output_filename=EXTRACTED_PEM_FILE)
 
-    certs = split_pem_chain(EXTRACTED_PEM_FILE)
-    # return
-    # certs = load_certs_from_file(EXTRACTED_PEM_FILE)
+    chain = split_pem_chain(EXTRACTED_PEM_FILE)
 
-    # Verify each certificate in the chain against each root CA certificate
-    for i in range(len(certs)):
-        cert = certs[i]
-        if i < len(certs) - 1:
-            next_cert = certs[i + 1]
-            for root_ca_file in root_ca_files:
-                result = verify_cert(next_cert, root_ca_file)
-                print(f"Certificate {i + 1} verification result against {root_ca_file}: {result}")
+    # Verify against all root certificates. If one of them is valid, the chain is valid
+    valid = True
+    for root_ca in root_ca_files:
+        if verify_chain(EXTRACTED_PEM_FILE, chain, root_ca):
+            break
+    else:
+        valid = False
 
-    # Verify the last certificate against each root CA certificate
-    last_cert = certs[-1]
-    for root_ca_file in root_ca_files:
-        result = verify_cert(last_cert, root_ca_file)
-        print(f"Last certificate verification result against {root_ca_file}: {result}")
+    # Delete temporary files
+    for cert in chain:
+        os.remove(cert)
+
+    print(valid)
+
 
 if __name__ == '__main__':
     main()
