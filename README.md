@@ -6,7 +6,7 @@ This project is a wrapper around `pdfisg` tool from [poppler-utils](https://popp
 
 It is tested with a specific version of `pdfsig`: 20.09.0. Maybe it works with other versions, but it heavily depends on `pdfsig` output format.
 
-There are two additional projects: XXXX to export a flask endpoint for verifying pdfs files, and XXXX which generates a Docker image with all the tools needed to run that service.
+You also have the project [pdf-signature-validator-service](https://github.com/CEED-Informatica/pdf-signature-validator-service) which export a flask endpoint for verifying pdfs files, with a Docker image with all the tools needed to run that service.
 
 
 ## Prerequisites
@@ -22,6 +22,7 @@ DATABASE=/certificates_database
 CERTIFICATES_DIR=/certificates
 
 # Create empty certificates database
+rm -rf $DATABASE
 mkdir $DATABASE
 certutil -N -d $DATABASE --empty-password
 
@@ -32,9 +33,15 @@ for CERT_FILE in $CERTIFICATES_DIR/*; do
 done
 
 # Certificates are not needed anymore
-rm -rf $CERTIFICATES_DIR
+# rm -rf $CERTIFICATES_DIR
 ```
 
+You can test
+```sh
+DATABASE=/certificates_database
+PDF_FILE=<your pdf file>
+pdfsig -nssdir $DATABASE
+```
 
 ## Usage
 
